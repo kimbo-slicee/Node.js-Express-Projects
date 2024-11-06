@@ -13,6 +13,7 @@ const {
 // app.post('/api/v1/tasks')-create New Task
 // app.patch('api/v1/tasks/:id')-update Task
 // app.delete('api/v1/tasks/:id')-delete Task
-router.route('/').get(getAllTasks);
-router.route('/:id').get(getOneTask);
+router.route('/').get(getAllTasks).post(addTask);
+router.route('/:id').get(getOneTask).patch(upDateTask).delete(deleteTask);
+
 module.exports=router;
