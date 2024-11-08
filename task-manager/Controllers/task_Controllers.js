@@ -1,24 +1,48 @@
 const  Task=require('../models/Task')
-const {response} = require("express");
-const getAllTasks=(req,res)=>{
-    res.status(200).send("<h1>ALL TASK</h1>")
+const getAllTasks= async (req,res)=>{
+    try{
+        const tasks=await Task.find({});
+        res.status(200).json({tasks});
+    }catch (error){
+        res.status(400).json({error})
+    }
 }
-const getOneTask=(req,res)=>{
-res.status(200).send("<h2>Fetch Only one Task</h2>")
+const getOneTask= async (req,res)=>{
+    try{
+    const {id:taskID}=req.params;
+    const task=await Task.findOne({_id:taskID})
+    if(!task) return res.status(400).json({ErrorMessage:"TASK NOTE FOUND"});
+    res.status(200).json({task});
+    }catch (error){
+        res.status(500).json({error})
+    }
+
 }
 const createTask=async (req,res)=>{
-    console.log(req.body)
-    res.send(res.body)
-// const task=await Task.create();
-//     res.status(200).json(task)
+    try{
+    const task =await Task.create(req.body);
+    res.status(200).json(task);
+    }catch (error){
+        res.status(500).json({error})
+    }
 }
 const upDateTask= async (req,res)=>{
-    res.status(200).send("<h2>Task UpDated</h2>")
+    try{
+   const {id:taskID}=req.params;
 
+    }catch(error){
+
+    }
 }
-const deleteTask=(req,res)=>{
-    res.status(200).send("<h2>Task deleted </h2>")
-
+const deleteTask=async (req,res)=>{
+try{
+    const {id:taskID}=req.params;
+    const task=await Task.findOneAndDelete({_id:taskID})
+    if(!task) return res.status(400).json({ErrorMessage:"TASK NOTE FOUND"});
+    res.status(200).json({task});
+}catch (error){
+    res.status(500).json({error})
+}
 }
 
 module.exports={
