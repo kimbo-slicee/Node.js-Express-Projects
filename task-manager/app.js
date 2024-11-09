@@ -2,6 +2,8 @@ require('dotenv').config();
 const express=require('express');
  const app=express();
 const port =5000;
+const notFound=require('./Middlewares/not-found')
+app.use(notFound)
 app.use(express.json());
 app.use(express.static("./public"));
 const tasks=require('./Router/routers');
