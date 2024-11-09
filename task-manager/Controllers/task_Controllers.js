@@ -1,24 +1,34 @@
 const Task=require('../models/Task');
 const asyncWrapper=require('../Middlewares/async');
-const getAllTasks=asyncWrapper(  async (req,res)=>{
+const {creatAPIErrorInstance}=require('../Errors/CustomAPIError')
+const getAllTasks=asyncWrapper(  async (req,res,next)=>{
+    if(!tasks){
+        const error=new Error("NOT FOUND ❌");
+        error.status=404;
+        return next(error);
+    }
         const tasks=await Task.find({});
         res.status(200).json({success:true,data:{tasks,nbHits:tasks.length}});
 });
-const getOneTask= asyncWrapper( async (req,res)=>{
+const getOneTask= asyncWrapper( async (req,res,next)=>{
     const {id:taskID}=req.params;
     const task=await Task.findOne({_id:taskID})
-    if(!task) return res.status(400).json({ErrorMessage:"TASK NOTE FOUND"});
+    if(!task){
+     return next(creatAPIErrorInstance("Task Note Found",404))
+    }
+
     res.status(200).json({task});
 });
-const createTask=asyncWrapper( async (req,res)=>{
+const createTask=asyncWrapper( async (req,res,next)=>{
     const task =await Task.create(req.body);
+    if(!task) return next(creatAPIErrorInstance("Please ADD Take",404))
     res.status(200).json(task);
 
 })
-const upDateTask=asyncWrapper( async (req,res)=>{
+const upDateTask=asyncWrapper( async (req,res,next)=>{
    const {id:taskID}=req.params;
    const task= await Task.findByIdAndUpdate({_id:taskID},req.body);
-   if(!task) return res.status(400).json({error:"TASK NOTE FOUND"});
+   if(!task) return next(creatAPIErrorInstance("Task Note Found",404));
    res.status(200).json({task:task});
 
 });
@@ -35,4 +45,4 @@ module.exports={
     createTask,
     upDateTask,
     deleteTask
-}  
+}
