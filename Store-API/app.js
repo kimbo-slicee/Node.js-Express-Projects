@@ -1,7 +1,9 @@
 // async Validation
 const express =require('express');
+require('dotenv').config();
 const app=express();
 const port = process.env.PORT ||3000;
+const connectDB=require('./DB/mongoos')
 const notFound=require('./middlewares/notFound');
 const errorHandlerMiddleware=require('./middlewares/errorHandlerMiddleware')
 app.use(express.json());// use Express.Json() Middleware to read data coming form the frontend req body
@@ -16,13 +18,13 @@ app.get('/',(rea,res,next)=>{
 })
 const start=async()=> {
     try {
-    //Connect DB
+       await connectDB(process.env.MONGO_URI)
         app.listen(port,()=>{
             console.log(`Server listing in Port ${port}....`);
         })
 
     }catch (error){
-
+        console.log(error)
     }
     }
     start();
