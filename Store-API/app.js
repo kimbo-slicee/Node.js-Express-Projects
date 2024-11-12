@@ -1,6 +1,7 @@
 // async Validation
 const express =require('express');
 require('dotenv').config();
+require('express-async-errors')
 const app=express();
 const port = process.env.PORT ||5000 ;
 const connectDB=require('./DB/mongoos')
