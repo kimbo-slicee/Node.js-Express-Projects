@@ -1,12 +1,12 @@
 const asyncWrapper=require('../middlewares/asyncWrapper')
+const product=require("../models/product");
+const getAllProducts= async (req,res)=>{
+    res.status(200).json({success:true,mgs:"API GET ALL PRODUCTS WORKS"})
+}
+const getProduct= async (req,res)=>{
+    res.status(200).json({success:true,mgs:"API GET ONE PRODUCTS WORKS"})
 
-const getAllProducts=asyncWrapper(async (err,req,res,next)=>{
-res.status(200).json({msg:"product testing routes"})
-})
-const getProduct=asyncWrapper(async (err,req,res,next)=>{
-    res.status(200).json({msg:"product testing routes"})
-
-})
+}
 module.exports={
     getAllProducts,
     getProduct
