@@ -14,7 +14,7 @@ const getAllProducts= async (req,res)=>{
     res.status(200).json({success:true,data:products,ngHits:products.length });
 }
 const getProduct= async (req,res)=>{
-    const {featured,company,name,sort,select} =req.query;
+    const {featured,company,name,sort,select,numFilters} =req.query;
     const queryObject={};
     if(featured ) queryObject.featured=featured === "true";
     if(company) queryObject.company=company;
@@ -30,6 +30,26 @@ const getProduct= async (req,res)=>{
         const selectList=select.split(',').join(' ');
         result=result.select(selectList);
     }
+    if(numFilters){
+        const operatorMap={
+            '>':'$gt',
+            '>=':'$gte',
+            '=':'$eq',
+            '<':'$lt',
+            '<=':'$lte',
+        }
+        const regEX=/\b(<|>|>=|=|<=)\b/g;
+        let filter=numFilters.replace(regEX,(match)=>`-${operatorMap[match]}`);
+        const options =["price","rating"];
+        filter=filter.split(',').forEach((items)=>{
+            const [field,operator,value]=items.split('-')
+            if(options.includes(field)){
+                queryObject[field]={[operator]:Number(value)};
+            }
+        })
+     }
+    console.log(filter);
+    console.log(numFilters)
     // add pagination
     const limit=Number(req.query.limit) || 5;
     const page=Number(req.query.page) || 1 ;
@@ -37,7 +57,7 @@ const getProduct= async (req,res)=>{
     result=result.limit(limit).skip(skip);
 
     let products=await result;
-    res.status(200).json({products,ngHits:products.length});
+    res.status(200).json({products,ngHits:products.length}); // query operators
 
 }
 module.exports={
