@@ -4,9 +4,11 @@ const app =express();
 const port=process.env.PORT || 5000;
 const notFoundMiddleware=require("./Middlewares/noteFound");
 const errorHandlerMiddleware=require("./Middlewares/errorHandlerMiddleware");
+const router=require('./Router/authRouter');
 // Middlewares
 app.use(express.json());
 app.use(express.static('./public'))
+app.use('/api/v1',router);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware)
 const start = ()=>{
