@@ -1,8 +1,8 @@
-const {CustomAPIError} = require("../Errors/CustomAPIError");
+const {CustomError} = require("../Errors/CustomError");
 
 const errorHandlerMiddleware=(err,req,res)=>{
-    if(err instanceof CustomAPIError){
-        return res.status(err.status).json({msg:err.message});
+    if(err instanceof CustomError){
+        return  res.status(err.status).json({msg:err.message});
     }
     return res.status(500).json({msg:"Internal Server Error"});
 };
