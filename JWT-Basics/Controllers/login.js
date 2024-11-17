@@ -1,15 +1,15 @@
 // check email and password
 // if exist create JWT
 // send back to Front-End
-const {CustomError} = require("../Errors/CustomError");
 const jwt=require('jsonwebtoken');
-const login =async (req, res,next)=>{
+const {badRequest} = require("../Errors");
+const login =async (req, res)=>{
     const{email, password}=req.body;
     //mongoose check
     // Joi
     // check in the controller;
     if(!email || !password){
-        throw new CustomError ("please provide Email or Password",400);
+            throw new badRequest ("please provide Email or Password");
     }
     const userId=new Date().getUTCFullYear();
     const token=jwt.sign({id:userId,userEmail:"userEmail"},process.env.JWT_SECRITE,{expiresIn: '30d'})

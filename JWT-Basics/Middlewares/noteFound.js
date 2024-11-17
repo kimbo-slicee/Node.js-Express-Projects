@@ -1,4 +1,5 @@
+const {NOT_FOUND} = require("http-status-codes");
 const notFound=(req,res)=>{
-    res.status(404).send("Page Note Found");
+    res.status(NOT_FOUND).send("Page Note Found");
 };
 module.exports=notFound;
