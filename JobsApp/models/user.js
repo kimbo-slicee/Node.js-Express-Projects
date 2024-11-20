@@ -1,4 +1,6 @@
-const  mongoose=require("mongoose")
+const  mongoose=require("mongoose");
+const bcrypt=require("bcryptjs");
+const jwt=require("jsonwebtoken")
 const userSchema=new mongoose.Schema({
     name:{
         type:String,
@@ -31,5 +33,18 @@ const userSchema=new mongoose.Schema({
     },
 
 })
-const User = mongoose.model('User', userSchema);
-module.exports=User;
+
+userSchema.pre('save',async function(next){
+    const salt=await bcrypt.genSalt(10);
+    this.password=await bcrypt.hash(this.password,salt);
+    next()
+})
+userSchema.methods.getName=function (){
+    return this.name;
+}
+userSchema.methods.createJWT=function (){
+ return jwt.sign({userID:this._id,name:this.name},process.env.JWT_SECRETE,{expiresIn:process.env.JWT_LIFETIMIE})
+}
+module.exports= mongoose.model('User', userSchema);
+// I want u to answer this Question : why I'm not using arrow function ?? 🤔
+// Create new JWT For new uer instance
