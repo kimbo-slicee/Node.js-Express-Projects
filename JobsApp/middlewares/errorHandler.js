@@ -2,9 +2,9 @@ const {CustomError} = require("../errors");
 const { StatusCodes } = require('http-status-codes'); // Import standardized status codes
 
 const errorHandler = (err, req, res) => {
-    console.log(`${err} unattached error`);
+    console.log(` ${err} unattached error`);
     if (err instanceof CustomError) {
-        console.log(`${err} is instance of CustomError`);
+        console.log(` ${err} is instance of CustomError`);
         return res.status(err.statusCode).json({ msg: err.message });
     }
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({

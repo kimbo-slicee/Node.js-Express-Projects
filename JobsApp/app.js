@@ -10,9 +10,10 @@ const connectionDB=require("./DB/connectDB");
 //my Middlewares
 const notFound=require("./middlewares/notFoundError");
 const errorHandler=require("./middlewares/errorHandler");
+const authMiddleware = require("./middlewares/authMiddleware");
 // Middlewares
 app.use(express.json());
-app.use('/api/v1/jobs',jobsRouter);
+app.use('/api/v1/jobs',authMiddleware,jobsRouter);
 app.use('/api/v1/auth',authRouter);
 // Global error handler (for other types of errors)
 app.use(errorHandler);
