@@ -43,7 +43,11 @@ userSchema.methods.getName=function (){
     return this.name;
 }
 userSchema.methods.createJWT=function (){
- return jwt.sign({userID:this._id,name:this.name},process.env.JWT_SECRETE,{expiresIn:process.env.JWT_LIFETIMIE})
+ return jwt.sign({userID:this._id,name:this.name,role:this.role},process.env.JWT_SECRETE,{expiresIn:process.env.JWT_LIFETIMIE})
+}
+// check if the user password match the sorted password
+userSchema.methods.comparePassword=async function(userPass){
+    return await bcrypt.compare(userPass, this.password)
 }
 module.exports= mongoose.model('User', userSchema);
 // I want u to answer this Question : why I'm not using arrow function ?? 🤔
