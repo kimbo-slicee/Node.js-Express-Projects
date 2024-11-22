@@ -1,8 +1,8 @@
 
 // CRUDE Operations
 const getAllJobs=async (req, res)=>{
-    res.status(200).send("<h1>Get all Jobs</h1>")
-
+    console.log(req.user);
+    res.json(req.user);
 }
 const getJob=async (req,res)=>{
     res.status(200).send("<h1>Get One Jobs</h1>")

@@ -11,7 +11,7 @@ const register=async (req,res)=>{
 }
 // Login Controller:  check authentication
 const login= async (req,res)=>{
-    const {email,password}=req.body ;
+    const {email,password}=req.body;
     if(!email || !password){
     throw new BadRequestError("Please Provide email and Password ")
     }
