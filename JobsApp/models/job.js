@@ -1,5 +1,4 @@
 const mongoose =require("mongoose");
-const {mongo} = require("mongoose");
 const JobSchema=new mongoose.Schema({
 company:{
 type:String,

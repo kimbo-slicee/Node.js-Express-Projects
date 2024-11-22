@@ -17,7 +17,7 @@ const login= async (req,res)=>{
     }
     // looking for this mail in data base to get roles and permissions
     const user =await User.findOne({email});
-    if(!user) throw new UnauthenticatedError("Invalid Credentials ");
+    if(!user) throw new UnauthenticatedError("Invalid Credentials X ");
     // compare password
     const isPasswordValid =user.comparePassword(password);
     // You Can also check for password correspondent here but by adding if condition but the best pratice to do it
